@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Zaky Motor</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="assets/css/paper-dashboard.css" rel="stylesheet" />
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <!--<link href="assets/css/demo.css" rel="stylesheet" />-->
+
+
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="assets/css/themify-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+            <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        <% if(user.level === 'admin'){ %>
+                            Zaky Motor
+                        <% } else{ %> 
+                            Zaky Motor <%= user.dealer %>
+                        <% } %>
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    <% if(user.level === 'admin'){ %>
+                    <li>
+                        <a href="dashboard">
+                            <i class="ti-stats-up"></i>
+                            <p>HALAMAN UTAMA</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="penjualan">
+                            <i class="ti-arrow-circle-left"></i>
+                            <p>PENJUALAN</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="barang_masuk">
+                            <i class="ti-arrow-circle-right"></i>
+                            <p>BARANG MASUK</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="stok">
+                            <i class="ti-package"></i>
+                            <p>STOK</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="user">
+                            <i class="ti-user"></i>
+                            <p>USER</p>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li>
+                        <a href="penjualan_gantung">
+                            <i class="ti-shopping-cart"></i>
+                            <p>PENJUALAN GANTUNG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="status_barang">
+                            <i class="ti-thumb-up"></i>
+                            <p>STATUS BARANG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="input_data">
+                            <i class="ti-write"></i>
+                            <p>Input Data</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">GANTI PASSWORD</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i>
+                                    <p>Admin</p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Akun</a></li>
+                                    <li><a href="logout">Keluar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                     <% if(result !== 2){ 
+                     if(result === 1){ %>
+                    <div class="alert alert-success" role="alert"><b>BERHASIL - </b> GANTI PASSWORD BERHASIL</div>
+                     <% }else{ %>
+                    <div class="alert alert-danger" role="alert"><b>GAGAL - </b> GANTI PASSWORD GAGAL</div>
+                     <% } } %>
+                        <!--Batas atas content form-->
+                        <form class="form-horizontal" action="/akun" method="POST">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">PASSWORD LAMA</label>
+                                    <div class="col-sm-8">
+                                        <input name="pwlama" type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">PASSWORD BARU</label>
+                                    <div class="col-sm-8">
+                                        <input id="1" name="pwbaru1" type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">PASSWORD BARU</label>
+                                    <div class="col-sm-8">
+                                        <input id="2" name="pwbaru2" type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-8">
+                                        <span id="alert" ><font color="red">PASSWORD TIDAK SAMA</font></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-8">
+                                        <input type="submit" class="btn btn-warning">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!--Batas bawah content form-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <option value=""></option>
+</body>
+
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="assets/js/paper-dashboard.js"></script>
+
+<script>
+   $(document).ready(function(){
+       document.getElementById('alert').style.display='none'
+       var pw1,pw2;
+       $('#1').keyup(function(){
+           pw1 = $('#1').val();
+       });
+       $('#2').keyup(function(){
+           pw2 = $('#2').val();
+           if(pw1 !== pw2){
+               document.getElementById('alert').style.display='';
+           }else{
+               document.getElementById('alert').style.display='none';
+           }
+       });
+
+   });
+</script>
+
+</html>

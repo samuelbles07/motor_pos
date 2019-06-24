@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Zaky Motor</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="assets/css/paper-dashboard.css" rel="stylesheet" />
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <!--<link href="assets/css/demo.css" rel="stylesheet" />-->
+
+
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="assets/css/themify-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+            <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        <% if(user.level === 'admin'){ %>
+                            Zaky Motor
+                        <% } else{ %> 
+                            Zaky Motor <%= user.dealer %>
+                        <% } %>
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    <% if(user.level === 'admin'){ %>
+                    <li>
+                        <a href="dashboard">
+                            <i class="ti-stats-up"></i>
+                            <p>HALAMAN UTAMA</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="penjualan">
+                            <i class="ti-arrow-circle-left"></i>
+                            <p>PENJUALAN</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="barang_masuk">
+                            <i class="ti-arrow-circle-right"></i>
+                            <p>BARANG MASUK</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="stok">
+                            <i class="ti-package"></i>
+                            <p>STOK</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="user">
+                            <i class="ti-user"></i>
+                            <p>USER</p>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li>
+                        <a href="penjualan_gantung">
+                            <i class="ti-shopping-cart"></i>
+                            <p>PENJUALAN GANTUNG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="status_barang">
+                            <i class="ti-thumb-up"></i>
+                            <p>STATUS BARANG</p>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="input_data">
+                            <i class="ti-write"></i>
+                            <p>Input Data</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">INPUT BARANG MASUK</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i>
+                                    <p>Admin</p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="akun">Akun</a></li>
+                                    <li><a href="logout">Keluar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                    <% if(result !== 2){ %>
+                    <% if(result === 1){ %>
+                    <div class="alert alert-success" role="alert"><b>BERHASIL - </b> INPUT DATA BERHASIL</div>
+                    <% }else{ %>
+                    <div class="alert alert-danger" role="alert"><b>GAGAL - </b> INPUT DATA GAGAL, COBA CEK LAGI FORM YANG DI INPUT</div>
+                    <% } }%>
+                        <!--Batas atas content form-->
+                        <form class="form-horizontal" action="/input_data" method="POST">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">MERK</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="brand" type="text" list="merk" class="form-control" required>
+                                        <datalist id="merk">
+                                            <option value="">
+                                            <option value="APRILLIA">
+                                            <option value="BAJAJ">
+                                            <option value="BENELLI">
+                                            <option value="BMW">
+                                            <option value="DUCATI">
+                                            <option value="GIRELLA">
+                                            <option value="HARLEY DAVIDSON">
+                                            <option value="HONDA">
+                                            <option value="HUSQVARNA">
+                                            <option value="HYOSUNG">
+                                            <option value="JIALING">
+                                            <option value="KANZEN">
+                                            <option value="KAWASAKI">
+                                            <option value="KREIDLER">
+                                            <option value="KTM">
+                                            <option value="KYMCO">
+                                            <option value="MINERVA">
+                                            <option value="OFF-ROAD DAN AUTO-CROSS">
+                                            <option value="PIAGGIO">
+                                            <option value="QUADS DAN TRIKES">
+                                            <option value="SANEX">
+                                            <option value="SUZUKI">
+                                            <option value="TOSSA">
+                                            <option value="TRIUMPH">
+                                            <option value="TVS">
+                                            <option value="VIAR">
+                                            <option value="VICTORY">
+                                            <option value="YAMAHA">
+                                            <option value="ZUNDAPP">
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">MODEL</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="model" type="text" class="form-control" placeholder="Model" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">TAHUN</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" type="number" name="tahun" min="1990" list="year" class="form-control" required>
+                                        <datalist id="year">
+                                            
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NAMA PENJUAL</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="nama" type="text" class="form-control" placeholder="Nama Penjual" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NIK KTP</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="nik" type="number" class="form-control" placeholder="Nik KTP" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NO TELEPON</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="no_telp" type="number" class="form-control" placeholder="No Telepon" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">ALAMAT</label>
+                                    <div class="col-sm-8">
+                                        <textarea onkeydown="upperCaseF(this)" name="alamat" class="form-control" rows="4" cols="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">KETERANGAN</label>
+                                    <div class="col-sm-8">
+                                        <textarea onkeydown="upperCaseF(this)" name="keterangan" class="form-control" rows="4" cols="4"></textarea>
+                                    </div> 
+                                </div>
+                            </div>
+                            <!--batas form kiri dan kanan-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NO POLISI</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="no_polisi" type="text" class="form-control" placeholder="No Polisi" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">REKONDISI PART</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="part" class="form-control" onkeyup="document.getElementById('part').innerHTML = formatCurrency(this.value);" /><span id="part" ></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">REKONDISI STNK</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="stnk" class="form-control" onkeyup="document.getElementById('stnk').innerHTML = formatCurrency(this.value);" / class="form-label"><span id="stnk"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">GRADE FINAL</label>
+                                    <div class="col-sm-8">
+                                        <input input onkeydown="upperCaseF(this)" name="grades" type="text" list="grade" class="form-control">
+                                        <datalist id="grade">
+                                            <option value="A">
+                                            <option value="B">
+                                            <option value="C">
+                                            <option value="D">
+                                            <option value="E">
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NO RANGKA</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="rangka" type="text" class="form-control" placeholder="No Rangka" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NO MESIN</label>
+                                    <div class="col-sm-8">
+                                        <input onkeydown="upperCaseF(this)" name="mesin" type="text" class="form-control" placeholder="No Mesin" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">HARGA BELI</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="beli" class="form-control" onkeyup="document.getElementById('beli').innerHTML = formatCurrency(this.value);" required /><span id="beli"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">HARGA JUAL</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="jual" class="form-control" onkeyup="document.getElementById('jual').innerHTML = formatCurrency(this.value);" required /><span id="jual"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="tanggal" id="tanggal">
+                                </div>
+                                <% if(user.level === 'admin'){ %>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">DEALER</label>
+                                    <div class="col-sm-8">
+                                        <input name="dealer" type="number" list="dealer" class="form-control">
+                                        <datalist id="dealer">
+                                            <option value="1">
+                                            <option value="2">
+                                            <option value="3">
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                <div class="form-group">
+                                    <input type="hidden" name="dealer" value= <%= user.dealer %> />
+                                </div>
+                                <% } %>
+                                <div class="form-group">
+                                    <div class="col-sm-4"></div>
+                                    <button type="submit" class="btn btn-default col-sm-6">SUBMIT</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!--Batas bawah content form-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <option value=""></option>
+</body>
+
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+<!--  Notifications Plugin    -->
+<script src="assets/js/bootstrap-notify.js"></script>
+
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="assets/js/paper-dashboard.js"></script>
+
+<script>
+    var start = 1990;
+    var end = new Date().getFullYear();
+    var options = "";
+    for (var year = start; year <= end; year++) {
+        options += "<option>" + year + "</option>";
+    }
+    document.getElementById("year").innerHTML = options;
+
+
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + '.' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + 'Rp ' + num + ',' + cents);
+    }
+
+    function upperCaseF(a) {
+        setTimeout(function() {
+            a.value = a.value.toUpperCase();
+        }, 1);
+    }
+
+    function getDate(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
+        today = yyyy+"-"+mm+"-"+dd;
+
+        document.getElementById("tanggal").value = today;
+    }
+    getDate();
+</script>
+
+</html>

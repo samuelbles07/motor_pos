@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Zaky Motor</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="assets/css/paper-dashboard.css" rel="stylesheet" />
+
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="assets/css/themify-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+            <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        <% if(user.level === 'admin'){ %>
+                            Zaky Motor
+                        <% } else{ %> 
+                            Zaky Motor <%= user.dealer %>
+                        <% } %>
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    <% if(user.level === 'admin'){ %>
+                    <li>
+                        <a href="dashboard">
+                            <i class="ti-stats-up"></i>
+                            <p>HALAMAN UTAMA</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="penjualan">
+                            <i class="ti-arrow-circle-left"></i>
+                            <p>PENJUALAN</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="barang_masuk">
+                            <i class="ti-arrow-circle-right"></i>
+                            <p>BARANG MASUK</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="stok">
+                            <i class="ti-package"></i>
+                            <p>STOK</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="user">
+                            <i class="ti-user"></i>
+                            <p>USER</p>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li>
+                        <a href="penjualan_gantung">
+                            <i class="ti-shopping-cart"></i>
+                            <p>PENJUALAN GANTUNG</p>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="status_barang">
+                            <i class="ti-thumb-up"></i>
+                            <p>STATUS BARANG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="input_data">
+                            <i class="ti-write"></i>
+                            <p>Input Data</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">STATUS BARANG</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i>
+                                    <p>Admin</p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="akun">Akun</a></li>
+                                    <li><a href="logout">Keluar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select id="berdasarkan" class="form-control">
+                                <option value="no_mesin">NO MESIN</option>
+                                <option value="no_polisi">NO POLISI</option>
+                            </select>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="hidden" id="userlevel" value="<%= user.level %>">
+                                <input id="input_cari" type="text" class="form-control" placeholder="CARI...">
+                                <span class="input-group-btn">
+                                    <button id="search" class="btn btn-default" type="button">Cari!</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                        <!-- /.col-md-12 -->
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>NO MESIN</th>
+                                        <th>NO POLISI</th>
+                                        <th>BRAND</th>
+                                        <th>MODEL</th>
+                                        <th>TAHUN</th>
+                                        <th>HARGA JUAL</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                    <% var a=20; %>
+                                    <% data.forEach(function(row){ %>
+                                        <tr class="click" id="<%= a++ %>" >
+                                            <td> <%= row.no_mesin %></td>
+                                            <td> <%= row.no_polisi %></td>
+                                            <td> <%= row.merk %></td>
+                                            <td> <%= row.model %></td>
+                                            <td> <%= row.tahun %></td>
+                                            <td id="JUAL"> <%= row.harga_jual %></td>
+                                            <td> <%= row.status_barang %></td>
+                                        </tr>
+                                    <% })%>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="tes" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><b>DETAIL BARANG</b></div>
+                <div class="modal-body">
+                    <div id="show">
+                    <table class="table" >
+                        <tr>
+                            <td>NO MESIN</td>
+                            <td>:</td>
+                            <td id="0">a</td>
+                        </tr>
+                        <tr>
+                            <td>NO RANGKA</td>
+                            <td>:</td>
+                            <td id="1">b</td>
+                        </tr>
+                        <tr>
+                            <td>NO POLISI</td>
+                            <td>:</td>
+                            <td id="2">b</td>
+                        </tr>
+                        <tr>
+                            <td>BRAND</td>
+                            <td>:</td>
+                            <td id="3">d</td>
+                        </tr>
+                        <tr>
+                            <td>MODEL</td>
+                            <td>:</td>
+                            <td id="4">e</td>
+                        </tr>
+                        <tr>
+                            <td>TAHUN</td>
+                            <td>:</td>
+                            <td id="5">f</td>
+                        </tr>
+                        <tr>
+                            <td>HARGA JUAL</td>
+                            <td>:</td>
+                            <td id="6">g</td>
+                        </tr>
+                        <tr>
+                            <td>REKONDISI PART</td>
+                            <td>:</td>
+                            <td id="7">hh</td>
+                        </tr>
+                        <tr>
+                            <td>REKONDISI STNK</td>
+                            <td>:</td>
+                            <td id="8">i</td>
+                        </tr>
+                        <tr>
+                            <td>GRADE</td>
+                            <td>:</td>
+                            <td id="9">i</td>
+                        </tr>
+                        <tr>
+                            <td>STATUS</td>
+                            <td>:</td>
+                            <td id="10">i</td>
+                        </tr>
+                        <tr>
+                            <td>DEALER</td>
+                            <td>:</td>
+                            <td id="11">i</td>
+                        </tr>
+                    </table>
+                    </div>
+                    <div id="edit" style="display: none;">
+                    <form id="edit_barang">
+                        <div class="form-group">
+                            <label class="control-label">NO MESIN:</label>
+                            <input type="text" class="form-control" id="no_mesin" name="no_mesin" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">NO RANGKA:</label>
+                            <input type="text" class="form-control" id="no_rangka" name="no_rangka" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">NO POLISI:</label>
+                            <input type="text" class="form-control" id="no_polisi" name="no_polisi" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">BRAND:</label>
+                            <input type="text" class="form-control" id="merk" name="merk" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">MODEL:</label>
+                            <input type="text" class="form-control" id="model" name="model" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">TAHUN:</label>
+                            <input type="text" class="form-control" id="tahun" name="tahun" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">HARGA JUAL:</label>
+                            <input type="text" class="form-control" id="harga_jual" name="harga_jual" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">REKONDISI PART:</label>
+                            <input type="text" class="form-control" id="rekondisi_part" name="part" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">REKONDISI STNK:</label>
+                            <input type="text" class="form-control" id="rekondisi_stnk" name="stnk" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">GRADE:</label>
+                            <input type="text" class="form-control" id="grade" name="grade" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">STATUS:</label>
+                            <input type="text" class="form-control" id="status" name="status" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">DEALER:</label>
+                            <input type="text" class="form-control" id="dealer" name="dealer" >
+                        </div>
+                    </form>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">TUTUP</button>
+                    <button id="btn_simpan" type="button" class="btn btn-danger"/>SIMPAN</button>
+                    <button id="btn_beli" type="button" class="btn btn-success"/>BELI</button>
+                    <% if(user.level === 'admin'){ %>
+                    <button id="btn_sunting" type="button" class="btn btn-warning">SUNTING</button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="assets/js/paper-dashboard.js"></script>
+<script src="assets/js/serialize-json.js"></script>
+<script>
+    
+    
+// <% var test = data; %> // variable created by ejs
+    var data = <%- modal %>//var test is now assigned to getTest which will only work on browsers
+    // console.log(data);  // successfully prints 101 on browse
+    var tampil;
+
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + '.' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + 'Rp ' + num + ',' + cents);
+    }
+    var part = new Array(),
+        stnk = new Array(),
+        jual = new Array();
+    $(document).ready(function() {
+        if(data.length > 0){
+            for(var i=0;i<data.length;i++){
+                part[i] = formatCurrency(data[i].rekondisi_part);
+                stnk[i] = formatCurrency(data[i].rekondisi_stnk);
+                jual[i] = formatCurrency(data[i].harga_jual);
+            }
+        }
+
+        $('#search').click(function(){
+            var cari = document.getElementById('input_cari').value;
+            var berdasarkan = document.getElementById('berdasarkan').value;
+            location.href= "status_barang?cari="+cari+"&berdasarkan="+berdasarkan+"";
+        });
+        
+        showhide('show');
+        
+        $('#btn_sunting').click(function(){
+            $('#no_mesin').val(tampil.no_mesin);
+            $('#no_rangka').val(tampil.no_rangka);
+            $('#no_polisi').val(tampil.no_polisi);
+            $('#merk').val(tampil.merk);
+            $('#model').val(tampil.model);
+            $('#tahun').val(tampil.tahun);
+            $('#harga_jual').val(tampil.harga_jual);
+            $('#rekondisi_part').val(tampil.rekondisi_part);
+            $('#rekondisi_stnk').val(tampil.rekondisi_stnk);
+            $('#grade').val(tampil.grade);
+            $('#status').val(tampil.status_barang);
+            $('#dealer').val(tampil.dealer);
+            document.getElementById('btn_simpan').style.display='';
+            document.getElementById('btn_sunting').style.display='none';
+            showhide('edit');
+            showhide('show');            
+        });
+        document.getElementById('btn_simpan').style.display='none';
+        
+
+        $(".click").click(function() {
+            var lvl = $("#userlevel").val();
+            temp = this.id - 20;
+            // console.log(temp);
+            tampil = data[temp];
+            if(tampil.status_barang === 'TERJUAL'){  
+                if(lvl === 'admin')
+                    document.getElementById('btn_sunting').style.display='none';
+                document.getElementById('btn_beli').style.display='none';
+            }else{
+                if(lvl === 'admin')
+                    document.getElementById('btn_sunting').style.display='';
+                document.getElementById('btn_beli').style.display='';
+            }
+            $('#0').html(tampil.no_mesin);
+            $('#1').html(tampil.no_rangka);
+            $('#2').html(tampil.no_polisi);
+            $('#3').html(tampil.merk);
+            $('#4').html(tampil.model);
+            $('#5').html(tampil.tahun);
+            $('#6').html(jual[temp]);
+            $('#7').html(part[temp]);
+            $('#8').html(stnk[temp]);
+            $('#9').html(tampil.grade);
+            $('#10').html(tampil.status_barang);
+            $('#11').html(tampil.dealer);
+            $('#tes').modal('show');
+        });
+        
+        $('#btn_beli').click(function(){
+            window.location.href = 'http://192.168.1.15/pembelian/'+tampil.no_mesin;
+        });
+
+        $('#btn_simpan').click(function(){
+            var formData = $('#edit_barang').serializeJSON();
+            // var username = document.getElementById('username').value;
+            // console.log(tampil.no_mesin);
+            var data = {
+                no_mesin:tampil.no_mesin,
+                data:formData
+            }
+            var path = "http://192.168.1.15/input_data"; // stream start url path
+            $.ajax({
+                type: 'PUT', // routring type post at the server
+                data: data, // not sending any data
+                url: path,
+                success: function(result) {
+                    if(result.hasil === '1') {
+                        alert("UPDATE DATA SUKSES");
+                        window.location.href = 'http://192.168.1.15/status_barang'; // kasi ke penjualan passing parameternya
+                    }else{
+                        alert("UPDATE DATA GAGAL");
+                    }
+                },
+                error: function(err) {
+                    alert("gagal"); // failed indicator
+                }
+            });
+        });
+        
+        function showhide(id){
+            var e = document.getElementById(id);
+       	    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+        }
+    });
+
+</script>
+
+</html>

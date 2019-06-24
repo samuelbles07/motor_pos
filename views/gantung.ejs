@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Zaky Motor</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Bootstrap core CSS     -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="../assets/css/paper-dashboard.css" rel="stylesheet" />
+
+
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="../assets/css/themify-icons.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+            <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        <% if(user.level === 'admin'){ %>
+                            Zaky Motor
+                            <% } else{ %>
+                                Zaky Motor
+                                <%= user.dealer %>
+                                    <% } %>
+                    </a>
+                </div>
+
+                <ul class="nav">
+                <% if(user.level === 'admin'){ %>
+                    <li>
+                        <a href="../dashboard">
+                            <i class="ti-stats-up"></i>
+                            <p>HALAMAN UTAMA</p>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../penjualan">
+                            <i class="ti-arrow-circle-left"></i>
+                            <p>PENJUALAN</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../barang_masuk">
+                            <i class="ti-arrow-circle-right"></i>
+                            <p>BARANG MASUK</p>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../stok">
+                            <i class="ti-package"></i>
+                            <p>STOK</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../user">
+                            <i class="ti-user"></i>
+                            <p>USER</p>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li>
+                        <a href="../penjualan_gantung">
+                            <i class="ti-shopping-cart"></i>
+                            <p>PENJUALAN GANTUNG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../status_barang">
+                            <i class="ti-thumb-up"></i>
+                            <p>STATUS BARANG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../input_data">
+                            <i class="ti-write"></i>
+                            <p>Input Data</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Halaman Gantung</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i>
+                                    <p>Admin</p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../akun">Akun</a></li>
+                                    <li><a href="../logout">Keluar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- AWAL DATA PEMBAYARAN -->
+                        <div class="col-md-8">
+                            <table class="table">
+                                <tr>
+                                    <td>BATAS PELUNASAN</td>
+                                    <td> : </td>
+                                    <td><%= data.pembayaran[0].bts_pelunasan %></td>
+                                </tr>
+                                <tr>
+                                    <td>SISA BAYAR</td>
+                                    <td> : </td>
+                                    <td id="sisa"><%= data.pembayaran[0].sisa_bayar %></td>
+                                </tr>
+                                <tr>
+                                    <td>ANGSURAN</td>
+                                    <td> : </td>
+                                    <td id="angsur"><%= data.pembayaran[0].angsuran %></td>
+                                </tr>
+                                <tr>
+                                    <td>TENOR</td>
+                                    <td> : </td>
+                                    <td><%= data.pembayaran[0].tenor %></td>
+                                </tr>
+                            </table>
+                            <input type="hidden" id="idpembayaran" value="<%= data.pembayaran[0].id_pembayaran %>">
+                            <input type="hidden" id="deal" value="<%= user.dealer %>">
+                            <input type="hidden" id="sisaval" value="<%= data.pembayaran[0].sisa_bayar %>">
+                            <input type="hidden" id="angsurval" value="<%= data.pembayaran[0].angsuran %>">
+                            <button id="angsuran" class="btn btn-primary col-sm-4">BAYAR ANGSURAN</button>
+                            <div class="col-sm-3">
+                                <input id="bulan" type="text" class="form-control" value="1">
+                            </div>
+                            <button id="lunas" class="btn btn-success col-sm-4">BAYAR LUNAS</button>
+                        </div>
+                        <!-- AKHIR DATA PEMBAYARAN -->
+                        <!-- AWAL RIWAYAT  -->
+                        <div class="col-md-4">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>BAYAR(bln)</th>
+                                    <th>TANGGAL</th>
+                                    <th>DEALER</th>
+                                </tr>
+                                <% data.angsuran.forEach(function(row){%>
+                                <tr>
+                                    <td align='center'><%= row.stat %></td>
+                                    <td><%= row.tgl_angsuran %></td>
+                                    <td align='center'><%= row.deal %></td>
+                                </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                        <!-- AKHIR RIWAYAT  -->
+                    </div>
+                </div>
+            </div>
+            <!--disini batas atas-->
+
+            <!--disini batas bawah-->
+        </div>
+    </div>
+
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="../assets/js/jspdf.debug.js"></script>
+<script src="../assets/js/jspdf.plugin.autotable.js"></script>
+<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="../assets/js/paper-dashboard.js"></script>
+
+<script>
+    var rawData = <%- rawData %>
+    var gantung = rawData.pembayaran[0];
+    var riwayat = rawData.angsuran;
+    function getDate(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
+        today = yyyy+"-"+mm+"-"+dd;
+
+        return today;
+    }
+
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + '.' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + 'Rp ' + num + ',' + cents);
+    }
+
+    function filter(data) {
+        var columns = new Array();
+        var rows = new Array();
+        var total = 1;
+        for (var i = 0; i < riwayat.length; i++) {
+            var bayarAngsuran = formatCurrency(gantung.angsuran * riwayat[i].stat);
+            rows[i] = [total, riwayat[i].tgl_angsuran, riwayat[i].stat, bayarAngsuran, riwayat[i].deal];
+            total++;
+        }
+        var newData = {
+            sisaTenor: 0,
+            sisaBayar:0,
+        }
+        var totalAngsuran=gantung.sisa_bayar;
+        if(data.stat !== 'LUNAS'){
+            totalAngsuran = gantung.angsuran * data.stat
+            newData.sisaTenor = gantung.tenor - data.stat;
+            newData.sisaBayar = gantung.sisa_bayar - totalAngsuran;
+            if(newData.sisaBayar < 0 )
+                newData.sisaBayar = 0;
+            newData.sisaBayar = formatCurrency(newData.sisaBayar);
+        }
+
+        var newHistory = [total, data.tanggal, data.stat, formatCurrency(totalAngsuran), data.deal]
+        // console.log(newData);
+        // console.log(newHistory);
+        rows.push(newHistory);
+        getPDF(data.tanggal, newData, rows);
+    }
+
+    $(document).ready(function() {
+        var deal = $("#deal").val();
+        var sisa = formatCurrency($("#sisa").text());
+        var angsur = formatCurrency($("#angsur").text());
+	console.log(deal);
+        $("#sisa").html(sisa); $("#angsur").html(angsur); 
+
+        $("#angsuran").click(function(){
+            var bulan = $("#bulan").val();
+            var idpembayaran = $("#idpembayaran").val();
+            var path = "http://192.168.1.15/penjualan_gantung/"+idpembayaran; // stream start url path
+            var data = {
+                "tanggal":getDate(),
+                "stat":bulan,
+                "deal":deal
+            };
+            // console.log(data);
+            $.ajax({
+                type: 'POST', // routring type post at the server
+                data: data, // not sending any data
+                url: path,
+                success: function(result) {
+                    if(result.hasil === '1') {
+                        filter(data);
+                        alert("BERHASIL MELAKUKAN ANGSURAN");
+                    }
+                    else alert("GAGAL MELAKUKAN ANGSURAN");
+                    window.location.href = path;
+                },
+                error: function(err) {
+                    alert("GAGAL KONEKSI"); // failed indicator
+                }
+            });
+        });
+
+        $("#lunas").click(function(){
+            var bulan = $("#bulan").val();
+            var idpembayaran = $("#idpembayaran").val();
+            var path = "http://192.168.1.15/penjualan_gantung/"+idpembayaran; // stream start url path
+            var data = {
+                "tanggal":getDate(),
+                "stat":"LUNAS",
+                "deal":deal
+            };
+            // console.log(data);
+            $.ajax({
+                type: 'POST', // routring type post at the server
+                data: data, // not sending any data
+                url: path,
+                success: function(result) {
+                    if(result.hasil === '1') {
+                        filter(data);
+                        alert("BERHASIL MELAKUKAN PELUNASAN");
+                    }
+                    else alert("GAGAL MELAKUKAN PELUNASAN");
+                    window.location.href = path;
+                },
+                error: function(err) {
+                    alert("GAGAL KONEKSI"); // failed indicator
+                }
+            });
+        });
+        
+    });
+
+    function getPDF(tgl, newData, rows) {
+        var doc = new jsPDF();
+        doc.setFontSize(20);
+        doc.text('RIWAYAT PEMBAYARAN', 62, 15);
+        doc.line(61,16,146,16);
+        doc.setFontSize(12);
+        doc.text('SISA BAYAR ', 10, 35); doc.text(': '+newData.sisaBayar, 38, 35);
+        doc.text('ANGSURAN ', 10, 42); doc.text(': '+formatCurrency(gantung.angsuran)+' /bln', 38, 42);
+        doc.text('SISA TENOR ', 10, 49); doc.text(': '+newData.sisaTenor+' /bln', 38, 49);
+
+        doc.text('TANGGAL DICETAK ', 133, 35); doc.text(': '+tgl, 175, 35);
+        doc.text('BATAS PELUNASAN ', 133, 42); doc.text(': '+gantung.bts_pelunasan, 175, 42);
+
+        var columns = ["KE","TANGGAL BAYAR","BAYAR(bln)","BAYAR","DEALER"];
+
+        doc.autoTable(columns, rows, {
+            styles: {
+                halign: 'center', // left, center, right
+                valign: 'middle',
+                overflow: 'linebreak'
+            },
+	    theme: 'plain',
+            margin: {
+                top: 60,
+                left:10,
+                right:9
+            }
+        });
+	doc.text('KASIR', 20, doc.autoTable.previous.finalY + 20);
+	doc.text('(.........................)', 10, doc.autoTable.previous.finalY + 45);
+	doc.text('KONSUMEN', 171, doc.autoTable.previous.finalY + 20);
+	doc.text('(.........................)', 167, doc.autoTable.previous.finalY + 45);
+
+        doc.save(tgl+'.pdf');
+    }
+</script>
+
+</html>

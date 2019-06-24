@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Zaky Motor</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <!--   Core JS Files   -->
+    <script src="../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="../assets/js/jspdf.debug.js"></script>
+    
+    <!-- Bootstrap core CSS     -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="../assets/css/animate.min.css" rel="stylesheet" />
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="../assets/css/paper-dashboard.css" rel="stylesheet" />
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <!--<link href="assets/css/demo.css" rel="stylesheet" />-->
+
+
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="../assets/css/themify-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-background-color="white" data-active-color="danger">
+
+            <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        <% if(user.level === 'admin'){ %>
+                            Zaky Motor
+                        <% } else{ %> 
+                            Zaky Motor <%= user.dealer %>
+                        <% } %>
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    <% if(user.level === 'admin'){ %>
+                    <li>
+                        <a href="../dashboard">
+                            <i class="ti-stats-up"></i>
+                            <p>HALAMAN UTAMA</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="../penjualan">
+                            <i class="ti-arrow-circle-left"></i>
+                            <p>PENJUALAN</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../barang_masuk">
+                            <i class="ti-arrow-circle-right"></i>
+                            <p>BARANG MASUK</p>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="../stok">
+                            <i class="ti-package"></i>
+                            <p>STOK</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../user">
+                            <i class="ti-user"></i>
+                            <p>USER</p>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li>
+                        <a href="../penjualan_gantung">
+                            <i class="ti-shopping-cart"></i>
+                            <p>PENJUALAN GANTUNG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../status_barang">
+                            <i class="ti-thumb-up"></i>
+                            <p>STATUS BARANG</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../input_data">
+                            <i class="ti-write"></i>
+                            <p>Input Data</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">penjualan                  </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i>
+                                    <p>Admin</p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="../akun">Akun</a></li>
+                                    <li><a href="../logout">Keluar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!--Batas atas content form-->
+                        <form class="form-horizontal" id="barang">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">MERK</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="merk" class="form-control" readonly="true" value="<%= data[0].merk %>">
+                                        <input type="hidden" name="dealer" class="form-control" value="<%= data[0].dealer %>">
+                                        <input type="hidden" name="no_mesin" class="form-control" value="<%= data[0].no_mesin %>">
+                                    </div>  
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">MODEL</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="model" class="form-control" readonly="true" value="<%= data[0].model %>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NO POLISI</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="no_polisi" class="form-control" readonly="true" value="<%= data[0].no_polisi %>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">HARGA DASAR</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="harga_dasar" class="form-control" onkeyup="document.getElementById('harga_dasar').innerHTML = formatCurrency(this.value);" id="hargaDasar" value="<%= data[0].harga_jual %>"><span id="harga_dasar"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">STATUS</label>
+                                    <div class="col-sm-8">
+                                        <select onchange="status(this.value)" name="status_beli" class="form-control" id="status_beli">
+                                            <option value="LUNAS">LUNAS</option>
+                                            <option value="LEASING">LEASING</option>
+                                            <option value="GANTUNG">GANTUNG</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">BAYAR</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" name="bayar" id="bayar" onchange="getSisa(this.value)" onkeyup="document.getElementById('bayarr').innerHTML = formatCurrency(this.value);" /><span id="bayarr"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--batas form kiri dan kanan-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">SISA BAYAR</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" readonly="true" id="sisaa" value="">
+                                        <input type="hidden" class="form-control" name="sisa" id="sisa" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">TENOR</label>
+                                    <div class="col-sm-3">
+                                        <input type="number" onchange="tenorpersen()" class="form-control" value="0" name="tenor" id="tenor" readonly="true">
+                                    </div>
+                                    <label class="col-sm-1 control-label">+</label>
+                                    <div class="col-sm-3">  
+                                        <input type="number" class="form-control" onchange="tenorpersen()" id="persen" value="0" name="persen" placeholder="%" readonly="true">
+                                    </div>
+                                    <label class="col-sm-1 control-label">%</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">TOTAL SISA</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="total_sisaa" readonly="true" value="">
+                                        <input type="hidden" class="form-control" name="total_sisa" id="total_sisa" >
+                                    </div>                            
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">ANGSURAN</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="angsurann" readonly="true" value="">
+                                        <input type="hidden" class="form-control" name="angsuran" value="0" id="angsuran">
+                                    </div>                            
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">TOTAL HARGA</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="totall" readonly="true" value="<%= data[0].harga_jual %> ">
+                                        <input type="hidden" class="form-control" name="total" id="total">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4"></div>
+
+                                    <button onclick="location.href='barang_masuk.html'" type="button" class="btn btn-danger col-sm-3">BATAL</button>
+                                    <button onclick="beli()" type="button" class="btn btn-primary col-sm-3">BELI</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!--Batas bawah content form-->
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-6">  
+                            <button type="submit" class="btn btn-default col-sm-12">SUBMIT</button>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- awal modal DETAIL-->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">PEMBELI</h4>
+            </div>
+            <div class="modal-body">
+                <form id="beli">
+                    <div class="form-group">
+                        <label class="control-label">NIK:</label>
+                        <input type="number" class="form-control" id="nik" name="nik">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">NAMA LENGKAP:</label>
+                        <input onkeydown="upperCaseF(this)" type="text" class="form-control" id="fullname" name="fullname">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">NO TELEPON:</label>
+                        <input type="number" class="form-control" id="no_telp" name="no_telp">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">ALAMAT:</label>
+                        <textarea onkeydown="upperCaseF(this)" class="form-control" name="alamat" id="alamat" cols="30" rows="3" ></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">TUTUP</button>
+                <button id="btn_simpan" type="button" class="btn btn-primary"/>BELI</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- akhir modal DETAIL-->
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="../assets/js/paper-dashboard.js"></script>
+<script src="../assets/js/serialize-json.js"></script>
+
+<script>
+    var tenor = document.getElementById("tenor");
+    var persen = document.getElementById("persen");
+    var total = document.getElementById("total");
+    var hargaDasar = document.getElementById("hargaDasar");
+    var sisaBayar = document.getElementById("sisa");
+    var total_sisa = document.getElementById("total_sisa");
+    var angsuran = document.getElementById("angsuran");
+    var statusV = document.getElementById("status_beli");
+    
+    var totalSisa,total_bunga=0;
+    function beli(){
+        $('#detailModal').modal('show');
+    }
+    function status(stat){
+        if(stat === 'GANTUNG'){
+            //$('#bayar').removeAttr('readonly');
+            $('#tenor').removeAttr('readonly');
+            $('#persen').removeAttr('readonly');
+        }
+    }
+
+    function getSisa(bayar){
+        sisaBayar.value = hargaDasar.value - bayar;
+        total_sisa.value = hargaDasar.value;
+        if(parseInt(sisaBayar.value) === 0) total_sisa.value = '0'; 
+        total.value = $("#bayar").val();
+        $("#sisaa").val(formatCurrency(sisaBayar.value));
+    }
+
+    function tenorpersen() {
+        total_bunga = sisaBayar.value * tenor.value * (persen.value / 100);
+        total_bunga = Math.round(total_bunga);
+        totalSisa = parseInt(sisaBayar.value) + total_bunga;
+        total_sisa.value = totalSisa;
+        total.value = parseInt($("#bayar").val()) + parseInt(total_sisa.value);
+        angsuran.value = Math.round(parseInt(total_sisa.value) / tenor.value);
+
+        $("#total_sisaa").val(formatCurrency(total_sisa.value));
+        $("#angsurann").val(formatCurrency(angsuran.value));
+        $("#totall").val(formatCurrency(total.value));
+    }
+
+    function upperCaseF(a) {
+        setTimeout(function() {
+            a.value = a.value.toUpperCase();
+        }, 1);
+    }
+
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + '.' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + 'Rp ' + num + ',' + cents);
+    }
+    
+    function getDate(n) {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0 so add 1 !
+        var yyyy = today.getFullYear();
+        if (n > 0 && statusV.value === 'GANTUNG') {
+            var temp = mm + n;
+            var t = parseInt(temp);
+            if (t > 12) {
+                // mm = t - 12;
+                while (n > 0) {
+                    mm++;
+                    n--;
+                    if (mm > 12)
+                        mm = 1;
+                }
+                var add = Math.floor(t / 12);
+                yyyy = yyyy + add;
+                if (mm === 12)
+                    yyyy = yyyy - 1;
+            }else {
+                mm = mm + n;
+            }
+            if (mm === 2 && dd === 30) {
+                mm += 1;
+                dd = 2;
+            }
+        }
+        if (dd < 10) { dd = '0' + dd }
+        if (mm < 10) { mm = '0' + mm }
+
+        today = yyyy + "-" + mm + "-" + dd;
+
+        return today;
+    }
+    var tanggal = getDate(0);
+    $(document).ready(function() {
+
+        $('#btn_simpan').click(function(){
+            var vbarang = $('#barang').serializeJSON();
+            var vbeli = $('#beli').serializeJSON();
+            var allData = {
+                tanggal: tanggal,
+                batas_pelunasan: getDate(parseInt(tenor.value)),
+                total_bunga:total_bunga,
+                pembeli:vbeli,
+                penjualan: vbarang
+            }
+            // getPDF(allData);
+            console.log(allData);
+            var path = "http://192.168.1.15/pembelian/"+vbarang.no_polisi; // stream start url path
+            $.ajax({
+                type: 'POST', // routring type post at the server
+                data: allData, // not sending any data
+                url: path,
+                success: function(result) {
+                    if(result.hasil === '1') {
+                        alert("PEMBELIAN SUKSES");
+                        getPDF(allData);
+                        window.location.href = 'http://192.168.1.15/status_barang'; // kasi ke penjualan passing parameternya
+                    }else {
+                        alert("PEMBELIAN GAGAL!!, CEK KEMBALI YANG ANDA INPUT");
+                    }
+                },
+                error: function(err) {
+                    alert("KONEKSI GAGAL!"); // failed indicator
+                }
+            });
+        });
+    });
+
+    function getPDF(data) {
+        // console.log(data);
+        var doc = new jsPDF();
+        doc.setFontSize(20);
+        doc.text('RIWAYAT PEMBELIAN', 65, 15);
+        doc.line(64,16,140,16);
+        doc.setFontSize(12);
+        doc.text('UD. ZAKY MOTOR',80,20);
+	doc.text('Jl. Keude Sp.Rangkaya Dr Depan Adi Bu Sie Kameng Kec Tanah Luas Kab Aceh Utara', 20, 24);
+	doc.line(20,25,185,25);
+	doc.text(data.tanggal, 180, 5);
+        doc.text('NIK', 10, 35); doc.text(':', 55, 35); doc.text(data.pembeli.nik, 58, 35);
+        doc.text('NAMA KONSUMEN', 10, 42); doc.text(':', 55, 42); doc.text(data.pembeli.fullname, 58, 42);
+        doc.text('NO TELEPON', 10, 49); doc.text(':', 55, 49); doc.text(data.pembeli.no_telp, 58, 49);
+        doc.text('ALAMAT', 10, 56); doc.text(':', 55, 56); doc.text(data.pembeli.alamat, 58, 56);
+
+        doc.text('MERK', 10, 63); doc.text(':', 55, 63); doc.text(data.penjualan.merk, 58, 63);
+        doc.text('MODEL', 10, 70); doc.text(':', 55, 70); doc.text(data.penjualan.model, 58, 70);
+        doc.text('NO POLISI', 10, 77); doc.text(':', 55, 77); doc.text(data.penjualan.no_polisi, 58, 77);
+        doc.text('NO MESIN', 10, 84); doc.text(':', 55, 84); doc.text(data.penjualan.no_mesin, 58, 84);
+        doc.text('STATUS', 10, 91); doc.text(':', 55, 91); doc.text(data.penjualan.status_beli, 58, 91);
+        doc.text('TENOR', 10, 98); doc.text(':', 55, 98); doc.text(data.penjualan.tenor, 58, 98); doc.text('BLN', 65, 98);
+        doc.text('BAYAR', 10, 105); doc.text(':', 55, 105); doc.text(formatCurrency(data.penjualan.bayar), 58, 105);
+        // doc.text('SISA BAYAR', 10, 105); doc.text(':', 55, 105); doc.text(data.penjualan.sisa, 58, 105);
+        doc.text('TOTAL SISA', 10, 112); doc.text(':', 55, 112); doc.text(formatCurrency(data.penjualan.total_sisa), 58, 112);
+        doc.text('ANGSURAN', 10, 119); doc.text(':', 55, 119); doc.text(formatCurrency(data.penjualan.angsuran), 58, 119);
+        doc.text('TOTAL PEMBAYARAN', 10, 126); doc.text(':', 55, 126); doc.text(formatCurrency(data.penjualan.total), 58, 126);
+        doc.text('BATAS PELUNASAN', 10, 133); doc.text(':', 55, 133); doc.text(data.batas_pelunasan, 58, 133);
+        doc.text('KASIR', 20, 150);
+	doc.text('(..........................)', 10, 175);
+	doc.text('KONSUMEN', 171, 150);
+	doc.text('(..........................)',167,175);
+	doc.save(data.tanggal+'.pdf');
+    }
+</script>
+
+</html>
